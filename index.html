@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jannatul Jui — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,700;0,900;1,300;1,700&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:   #FF6B6B;
+      --yellow:  #FFD93D;
+      --mint:    #6BCB77;
+      --sky:     #4D96FF;
+      --lavender:#C77DFF;
+      --ink:     #1a1a2e;
+      --paper:   #FDFAF4;
+      --card:    #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      backdrop-filter: blur(12px);
+      background: rgba(253,250,244,0.85);
+      border-bottom: 1.5px solid rgba(26,26,46,0.07);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: 'Fraunces', serif;
+      font-size: 1.4rem; font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, var(--coral), var(--lavender));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.85rem; font-weight: 600;
+      color: var(--ink); text-decoration: none;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      position: relative; padding-bottom: 2px;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--coral);
+      transition: width 0.3s ease;
+    }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 7rem 3rem 4rem;
+      position: relative; overflow: hidden;
+    }
+
+    /* Blob shapes */
+    .blob {
+      position: absolute; border-radius: 50%;
+      filter: blur(80px); opacity: 0.35;
+      animation: float 8s ease-in-out infinite;
+    }
+    .blob-1 { width: 500px; height: 500px; background: var(--coral);    top: -100px; right: -100px; animation-delay: 0s; }
+    .blob-2 { width: 350px; height: 350px; background: var(--yellow);   bottom: 0;   left: -80px;  animation-delay: -3s; }
+    .blob-3 { width: 280px; height: 280px; background: var(--lavender); top: 40%;    right: 20%;   animation-delay: -5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-30px) scale(1.04); }
+    }
+
+    .hero-inner {
+      max-width: 900px;
+      position: relative; z-index: 2;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--yellow);
+      color: var(--ink);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem; font-weight: 500;
+      padding: 0.35rem 0.9rem;
+      border-radius: 99px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.08em;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero-name {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      font-weight: 900; line-height: 0.95;
+      letter-spacing: -2px;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.7s 0.1s ease both;
+    }
+    .hero-name em {
+      font-style: italic; font-weight: 300;
+      color: var(--coral);
+    }
+    .hero-sub {
+      font-size: 1.15rem; font-weight: 400;
+      color: #555; line-height: 1.7;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      animation: fadeUp 0.7s 0.2s ease both;
+    }
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.7s 0.3s ease both;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 99px;
+      font-size: 0.9rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.15); }
+    .btn-primary { background: var(--ink); color: var(--paper); }
+    .btn-outline { background: transparent; color: var(--ink); border: 2px solid var(--ink); }
+
+    /* Scroll indicator */
+    .scroll-hint {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      font-size: 0.72rem; font-family: 'DM Mono', monospace;
+      color: #999; letter-spacing: 0.1em;
+      animation: fadeUp 1s 0.8s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, #999, transparent);
+      animation: scrollLine 1.6s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 6rem 3rem; max-width: 1100px; margin: 0 auto; }
+
+    .section-label {
+      display: flex; align-items: center; gap: 0.75rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: #999;
+      margin-bottom: 1rem;
+    }
+    .section-label span {
+      display: inline-block; width: 32px; height: 1.5px;
+      background: var(--coral);
+    }
+    .section-title {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 3rem;
+    }
+
+    /* ── ABOUT ── */
+    #about .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .about-text p {
+      font-size: 1.05rem; line-height: 1.8; color: #444;
+      margin-bottom: 1.2rem;
+    }
+    .about-visual {
+      position: relative;
+    }
+    .avatar-frame {
+      width: 280px; height: 280px;
+      border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%;
+      background: linear-gradient(135deg, var(--sky), var(--lavender));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem;
+      animation: morphBlob 8s ease-in-out infinite;
+      margin: 0 auto;
+    }
+    @keyframes morphBlob {
+      0%, 100% { border-radius: 40% 60% 60% 40% / 50% 40% 60% 50%; }
+      33%  { border-radius: 60% 40% 50% 50% / 40% 60% 40% 60%; }
+      66%  { border-radius: 50% 50% 40% 60% / 60% 40% 50% 50%; }
+    }
+    .fun-tags {
+      display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.8rem;
+    }
+    .tag {
+      padding: 0.35rem 0.9rem;
+      border-radius: 99px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .tag-coral   { background: #FFE8E8; color: var(--coral); }
+    .tag-yellow  { background: #FFF8DC; color: #b88c00; }
+    .tag-mint    { background: #E8F9EA; color: #2e8b57; }
+    .tag-sky     { background: #E3EEFF; color: #2563eb; }
+    .tag-lavender{ background: #F3E8FF; color: #7c3aed; }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--ink); border-radius: 32px; max-width: none; padding: 5rem 3rem; }
+    #skills .section-label { color: #888; }
+    #skills .section-label span { background: var(--yellow); }
+    #skills .section-title { color: var(--paper); }
+
+    .skills-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem; max-width: 1100px; margin: 0 auto;
+    }
+    .skill-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 1.5rem;
+      display: flex; align-items: center; gap: 0.9rem;
+      transition: background 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .skill-card:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-4px);
+    }
+    .skill-icon { font-size: 1.6rem; }
+    .skill-name { color: #fff; font-size: 0.9rem; font-weight: 600; }
+    .skill-level {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem; color: #888; margin-top: 2px;
+    }
+
+    /* ── PROJECTS ── */
+    .projects-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1.5px solid rgba(26,26,46,0.1);
+      border-radius: 24px;
+      padding: 2rem;
+      transition: transform 0.25s, box-shadow 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    }
+    .project-card:nth-child(1)::before { background: linear-gradient(90deg, var(--coral), var(--yellow)); }
+    .project-card:nth-child(2)::before { background: linear-gradient(90deg, var(--sky), var(--mint)); }
+    .project-card:nth-child(3)::before { background: linear-gradient(90deg, var(--lavender), var(--coral)); }
+    .project-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(26,26,46,0.12); }
+
+    .project-emoji { font-size: 2.2rem; margin-bottom: 1rem; display: block; }
+    .project-title {
+      font-family: 'Fraunces', serif;
+      font-size: 1.3rem; font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .project-desc { font-size: 0.92rem; color: #666; line-height: 1.65; margin-bottom: 1.2rem; }
+    .project-stack { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 1.4rem; }
+    .project-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--ink); text-decoration: none;
+      border-bottom: 1.5px solid var(--coral);
+      padding-bottom: 1px;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--coral); }
+
+    /* ── CONTACT ── */
+    #contact { text-align: center; }
+    .contact-box {
+      background: linear-gradient(135deg, var(--coral) 0%, var(--lavender) 100%);
+      border-radius: 32px;
+      padding: 4rem 3rem;
+      color: #fff;
+      position: relative; overflow: hidden;
+    }
+    .contact-box::before {
+      content: '✦ ✦ ✦';
+      position: absolute; top: 1.5rem; right: 2rem;
+      font-size: 1.2rem; opacity: 0.25; letter-spacing: 0.5em;
+    }
+    .contact-box h2 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900; margin-bottom: 1rem;
+    }
+    .contact-box p {
+      font-size: 1rem; opacity: 0.85; max-width: 440px;
+      margin: 0 auto 2.5rem; line-height: 1.7;
+    }
+    .contact-links {
+      display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .btn-white {
+      background: #fff; color: var(--ink);
+    }
+    .btn-ghost {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.5);
+      backdrop-filter: blur(4px);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.78rem; color: #aaa;
+    }
+    footer strong { color: var(--coral); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.2rem; }
+      #hero { padding: 7rem 1.5rem 4rem; }
+      section { padding: 4rem 1.5rem; }
+      #about .about-grid { grid-template-columns: 1fr; }
+      .about-visual { order: -1; }
+      .avatar-frame { width: 200px; height: 200px; font-size: 4rem; }
+      #skills { border-radius: 0; padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">JJ</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+
+  <div class="hero-inner">
+    <div class="hero-tag">👋 Hello, world!</div>
+    <h1 class="hero-name">
+      Jannatul<br><em>Jui</em>
+    </h1>
+    <p class="hero-sub">
+      CS student at Penn State University, passionate about building
+      things that live on the internet — from elegant interfaces to clever back-end systems.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View My Work ↓</a>
+      <a href="#contact"  class="btn btn-outline">Get In Touch</a>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label"><span></span>About Me</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <h2 class="section-title">A little about<br><em>who I am</em></h2>
+      <p>
+        Hi! I'm Jannatul Jui — a Computer Science student at
+        <strong>Penn State University</strong>, exploring the intersection of
+        technology and creativity. I love writing clean code, designing
+        intuitive experiences, and tackling problems that actually matter.
+      </p>
+      <p>
+        When I'm not studying or coding, you'll find me experimenting with
+        new frameworks, contributing to open-source, or getting lost in a
+        good book. I believe the best software is both technically sound
+        and deeply human.
+      </p>
+      <div class="fun-tags">
+        <span class="tag tag-coral">🎓 PSU</span>
+        <span class="tag tag-sky">💻 CS Major</span>
+        <span class="tag tag-mint">🌱 Open Source</span>
+        <span class="tag tag-yellow">☕ Coffee-powered</span>
+        <span class="tag tag-lavender">✨ Problem Solver</span>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div class="avatar-frame">🌸</div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<div style="padding: 0 1.5rem;">
+<section id="skills">
+  <div class="section-label"><span></span>What I Work With</div>
+  <h2 class="section-title">Skills &amp; Tools</h2>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <span class="skill-icon">🐍</span>
+      <div><div class="skill-name">Python</div><div class="skill-level">Proficient</div></div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">☕</span>
+      <div><div class="skill-name">Java</div><div class="skill-level">Proficient</div></div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🌐</span>
+      <div><div class="skill-name">HTML / CSS</div><div class="skill-level">Proficient</div></div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">⚡</span>
+      <div><div class="skill-name">JavaScript</div><div class="skill-level">Learning</div></div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🗄️</span>
+      <div><div class="skill-name">SQL</div><div class="skill-level">Familiar</div></div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🐙</span>
+      <div><div class="skill-name">Git / GitHub</div><div class="skill-level">Proficient</div></div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🐧</span>
+      <div><div class="skill-name">Linux / CLI</div><div class="skill-level">Familiar</div></div>
+    </div>
+    <div class="skill-card">
+      <span class="skill-icon">🧠</span>
+      <div><div class="skill-name">Data Structures</div><div class="skill-level">Proficient</div></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label"><span></span>My Work</div>
+  <h2 class="section-title">Featured Projects</h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <span class="project-emoji">🛒</span>
+      <h3 class="project-title">Campus Marketplace</h3>
+      <p class="project-desc">
+        A peer-to-peer marketplace app for PSU students to buy, sell, and
+        trade items locally — built with a clean UI and real-time updates.
+      </p>
+      <div class="project-stack">
+        <span class="tag tag-sky">Python</span>
+        <span class="tag tag-mint">Flask</span>
+        <span class="tag tag-yellow">SQLite</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card">
+      <span class="project-emoji">📊</span>
+      <h3 class="project-title">GPA Tracker</h3>
+      <p class="project-desc">
+        A handy tool for students to track grades, predict GPA outcomes,
+        and visualize academic progress over semesters.
+      </p>
+      <div class="project-stack">
+        <span class="tag tag-coral">JavaScript</span>
+        <span class="tag tag-lavender">HTML/CSS</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+    <div class="project-card">
+      <span class="project-emoji">🤖</span>
+      <h3 class="project-title">CS Study Bot</h3>
+      <p class="project-desc">
+        A chatbot that quizzes CS students on data structures, algorithms,
+        and core concepts — great for exam prep.
+      </p>
+      <div class="project-stack">
+        <span class="tag tag-sky">Python</span>
+        <span class="tag tag-mint">NLP</span>
+        <span class="tag tag-yellow">JSON</span>
+      </div>
+      <a href="#" class="project-link">View on GitHub →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-box">
+    <h2>Let's build something<br>together ✦</h2>
+    <p>
+      I'm always open to collaborating on interesting projects, internships,
+      or just geeking out about tech. Feel free to reach out!
+    </p>
+    <div class="contact-links">
+      <a href="mailto:jui@psu.edu" class="btn btn-white">✉️ Email Me</a>
+      <a href="https://github.com/" target="_blank" class="btn btn-ghost">🐙 GitHub</a>
+      <a href="https://linkedin.com/" target="_blank" class="btn btn-ghost">💼 LinkedIn</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Made with 💛 by <strong>Jannatul Jui</strong> · Penn State University · CS '2X
+</footer>
+
+</body>
+</html>
